@@ -24,7 +24,7 @@ from sklearn.ensemble import RandomForestClassifier
 fixed_size  = tuple((500,500))
 
 #train path 
-train_path = "dataset/train"
+train_path = "D:/image-classification/dataset/train"
 
 # no of trees for Random Forests
 num_tree = 100
@@ -107,7 +107,7 @@ images_per_class = 80
 
 # ittirate the folder to get the image label name
 
-get_ipython().run_line_magic('time', '')
+# get_ipython().run_line_magic('time', '')
 # lop over the training data sub folder 
 
 for training_name in train_labels:
@@ -156,7 +156,7 @@ print("[STATUS] completed Global Feature Extraction...")
 # In[30]:
 
 
-get_ipython().run_line_magic('time', '')
+#get_ipython().run_line_magic('time', '')
 # get the overall feature vector size
 print("[STATUS] feature vector size {}".format(np.array(global_features).shape))
 
@@ -177,10 +177,10 @@ print("[STATUS] target labels: {}".format(target))
 print("[STATUS] target labels shape: {}".format(target.shape))
 
 # save the feature vector using HDF5
-h5f_data = h5py.File('output/data.h5', 'w')
+h5f_data = h5py.File('D:/image-classification/output/data.h5', 'w')
 h5f_data.create_dataset('dataset_1', data=np.array(rescaled_features))
 
-h5f_label = h5py.File('output/labels.h5', 'w')
+h5f_label = h5py.File('D:/image-classification/output/labels.h5', 'w')
 h5f_label.create_dataset('dataset_1', data=np.array(target))
 
 h5f_data.close()
@@ -194,8 +194,8 @@ print("[STATUS] end of training..")
 
 # import the feature vector and trained labels
 
-h5f_data = h5py.File('output/data.h5', 'r')
-h5f_label = h5py.File('output/labels.h5', 'r')
+h5f_data = h5py.File('D:/image-classification/output/data.h5', 'r')
+h5f_label = h5py.File('D:/image-classification/output/labels.h5', 'r')
 
 global_features_string = h5f_data['dataset_1']
 global_labels_string = h5f_label['dataset_1']
@@ -221,7 +221,7 @@ global_labels = np.array(global_labels_string)
 
 
 # create the model - Random Forests
-clf  = RandomForestClassifier(n_estimators=100)
+clf = RandomForestClassifier(n_estimators=100)
 
 # fit the training data to the model
 clf.fit(trainDataGlobal, trainLabelsGlobal)
@@ -230,7 +230,7 @@ clf.fit(trainDataGlobal, trainLabelsGlobal)
 
 clf_pred = clf.predict(trainDataGlobal)
 #clf_pred = clf.predict(global_feature.reshape(1,-1))[0]
-print(classification_report(trainLabelsGlobal,clf_pred))
+#print(classification_report(trainLabelsGlobal,clf_pred))
 #print(confusion_matrix(trainLabelsGlobal,clf_pred))
 
 #print(clf.predict(trainDataGlobal))
@@ -243,13 +243,13 @@ print(classification_report(trainLabelsGlobal,clf_pred))
 
 
 # path to test data
-test_path = "dataset/test"
+test_path = "D:/image-classification/dataset/test"
 
 # loop through the test images
-#for file in glob.glob(test_path + "/*.jpg"):
-for file in os.listdir(test_path):    
+for file in glob.glob(test_path + "/*.tif"):
+#for file in os.listdir(test_path):
 
-    file = test_path + "/" + file
+    #file = test_path + "/" + file
     #print(file)
     
     # read the image
@@ -276,6 +276,7 @@ for file in os.listdir(test_path):
     # display the output image
     plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
     plt.show()
+print ('结束了........')
 
 
 # In[ ]:
